@@ -1,0 +1,74 @@
+# Copyright (c) Microsoft Corporation
+# All rights reserved.
+#
+# MIT License
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+# documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and
+# to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+# The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED *AS IS*, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+# BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+# NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+# DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+# If corresponding values aren't be set in the machine list, the default value will be filled in.
+
+# kubernetes api server and dashboard host
+kubernetes:
+  api-servers-url: http://192.168.1.10:8080   #k8s的api-server
+  dashboard-url: http://192.168.1.10:9090     #k8s图形界面
+
+# TODO please modify it according to your own hardware
+machine-sku:
+  MASTER:                 #规定节点名称
+    mem: 125G             #此节点内存大小
+    gpu:                  #gpu
+      type: none
+      count: 0
+    cpu:                  #cpu核心数,lscpu可以查看
+      vcore: 32
+    os: ubuntu16.04       #系统版本
+  TYPEA:
+    mem: 376G
+    gpu:
+      type: gtx1080ti
+      count: 10
+    cpu:
+      vcore: 32
+    os: ubuntu16.04
+
+
+
+
+machine-list:
+  - dashboard: "true"
+    docker-data: "/var/lib/docker"
+    etcdid: "etcdid1"
+    hostip: "192.168.1.10"          #节点IP
+    hostname: "master"
+    k8s-role: "master"              #k8s节点类型
+    machine-type: "MASTER"          #机器配置类型
+    nodename: "192.168.1.10"
+    pai-master: "true"              #集群角色
+    no-drivers: "true"       
+    password: "sitonholy"           #ssh密码
+    ssh-port: "22"  
+    username: "root"                #ssh用户名
+    zkid: "1"
+    
+  - docker-data: "/var/lib/docker"
+    hostip: "192.168.1.11"
+    hostname: "sdu1"
+    k8s-role: "worker"
+    machine-type: "TYPEA"
+    nodename: "192.168.1.11"
+    pai-worker: "true"
+    password: "sitonholy"
+    ssh-port: "22"
+    username: "root"
+    

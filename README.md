@@ -7,8 +7,8 @@
   - [硬件选用](#硬件选用)
   - [系统配置选项](#系统配置选项)
   - [系统安装](#系统安装)
-  - []()
-  - []()
+  - [集群软件安装](#集群软件安装)
+    - [部署节点](#部署节点)
   - []()
 
 ## 硬件选用
@@ -42,20 +42,20 @@ Deploy|4core|4G|100G
 1. 安装请使用**Legacy BIOS**模式来启动U盘安装，否则可能会出现boot分区无法打开引导选项
 
 2. U盘启动后进入系统安装器：
-  - 语言选择英文
-  - 时区选择中国
-  - 键盘选择美国
-  - 不添加其他键盘
-  - 键盘选择美国
-  - 网络选择手动配置，**配置为固定IP**
-  - 主机名可以按节点类型来命名
-  - 设置管理员用户可以自行规定名称和密码
-  - 不加密目录
-  - 应用时区设置
-  - 手动分区硬盘Manual
-  - boot分区：分配1G空间给[boot](./images/boot.png)设置ext4格式并将Bootflags flag选项设置为on
-  - 根分区：将其他空间分配给[/](./images/root.png)并设置为xfs格式
-  - 在最后的软件安装中选上ssh连接工具完成安装
+  - a. 语言选择英文
+  - b. 时区选择中国
+  - c. 键盘选择美国
+  - d. 不添加其他键盘
+  - e. 键盘选择美国
+  - f. 网络选择手动配置，**配置为固定IP**
+  - g. 主机名可以按节点类型来命名
+  - h. 设置管理员用户可以自行规定名称和密码
+  - i. 不加密目录
+  - j. 应用时区设置
+  - k. 手动分区硬盘Manual
+  - l. boot分区：分配1G空间给[boot](./images/boot.png)设置ext4格式并将Bootflags flag选项设置为on
+  - m. 根分区：将其他空间分配给[/](./images/root.png)并设置为xfs格式
+  - n. 在最后的软件安装中选上ssh连接工具完成安装
 
 3. 开机后打开文件`/etc/dafault/grub`
 
@@ -66,13 +66,66 @@ Deploy|4core|4G|100G
 - `update-grub`
 - `reboot`
 
-4.  如果有挂载其他硬盘的话，挂载位置是用于docker的镜像路径的话，\
-则需要挂载选项为
+4.  如果有挂载其他硬盘的话，挂载位置是用于docker的镜像路径的话，则需要挂载选项为
 
 `UUID=46fd90a5-402d-4c43-b47b-681979ef00d1 /var/lib/docker xfs defaults,pquota 0 0`
     
-挂载完成后，`mount -a`生效
+挂载完成后，`mount -a`生效\
 此时系统安装完成
 
+## 安装本地Docker镜像仓库Harbor
+
+Harbor官方地址：[Harbor](https://github.com/goharbor/harbor)\
+请下载目前最新的release版本：[harbor-offline-installer-v1.8.1.tgz](https://storage.googleapis.com/harbor-releases/release-1.8.0/harbor-offline-installer-v1.8.1.tgz)
+
+1. 主节点**Master**下载Harbor安装包\
+```
+    wget https://storage.googleapis.com/harbor-releases/release-1.8.0/harbor-offline-installer-v1.8.1.tgz
+    # 因为是国内，可能下载不下来，可以用迅雷下载然后上传到服务器上
+```
+2. 解压打开`harbor`目录
+
+3. 编辑文件[harbor.yml](./yml/harbor.yml)修改选项\
+    - hostname
+    - port
+    - harbor_admin_password
+    - data_volume
+
+4. 修改完成后执行目录中`./install.sh`完成安装
 
 
+## 集群软件安装
+
+### 部署节点
+
+1. 在部署节点中安装Docker\
+    `curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun`
+
+2. Docker安装完成后下载部署镜像\
+   `docker pull 105552010/openpai-devbox:v0.12.10`
+
+3. 镜像下载完成后打开镜像\
+   ```
+   docker run --name deploy -itd 105552010/openpai-devbox:v0.12.10 bash
+   ```
+
+4. 打开镜像\
+    `docker exec -it deploy bash`
+
+5. 切换到目录`~/pai-config`
+
+6. 编辑文件
+    - [layout.yaml](./yml/layout.yaml)
+    - [kubernetes-configuration.yaml](./yml/kubernetes-configuration.yaml)
+    - [services-configuration](./yml/services-configuration.yaml) \
+    根据备注修改所需要的配置
+
+7. 进入目录`/pai`
+8. 执行命令`./paictl.py cluster k8s-bootup -p ~/pai-config` \
+   完成安装kubernetes
+9. 查看k8s集群状态\
+    - `kubectl get node`
+    - `kubectl get po -n kube-system`\
+    当所有容器启动成功后则可以进行下一步安装
+
+10. 
