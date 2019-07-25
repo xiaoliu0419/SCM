@@ -75,42 +75,29 @@ Deploy|4core|4G|100G
 
 ## 安装本地Docker镜像仓库Harbor
 
-Harbor官方地址：[Harbor](https://github.com/goharbor/harbor)\
-请下载目前最新的release版本：[harbor-offline-installer-v1.8.1.tgz](https://storage.googleapis.com/harbor-releases/release-1.8.0/harbor-offline-installer-v1.8.1.tgz)
-
-1. 主节点**Master**下载Harbor安装包\
-```
-    wget https://storage.googleapis.com/harbor-releases/release-1.8.0/harbor-offline-installer-v1.8.1.tgz
-    # 因为是国内，可能下载不下来，可以用迅雷下载然后上传到服务器上
-```
-2. 解压打开`harbor`目录
-
-3. 编辑文件[harbor.yml](./yml/harbor.yml)修改选项\
-    - hostname
-    - port
-    - harbor_admin_password
-    - data_volume
-
-4. 修改完成后执行目录中`./install.sh`完成安装
+- 安装[Harbor](./Harbor.md)
 
 
 ## 集群软件安装
 
 ### 部署节点
 
-1. 在部署节点中安装Docker\
-    `curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun`
+1. 在部署节点中安装[Docker](./Docker.md)
 
 2. Docker安装完成后下载部署镜像\
-   `docker pull 105552010/openpai-devbox:v0.12.10`
+   ```
+   docker pull 105552010/openpai-devbox:v0.12.10
+   ```
 
-3. 镜像下载完成后打开镜像\
+3. 镜像下载完成后打开镜像
    ```
    docker run --name deploy -itd 105552010/openpai-devbox:v0.12.10 bash
    ```
 
 4. 打开镜像\
-    `docker exec -it deploy bash`
+    ```
+    docker exec -it deploy bash
+    ```
 
 5. 切换到目录`~/pai-config`
 
@@ -125,6 +112,7 @@ Harbor官方地址：[Harbor](https://github.com/goharbor/harbor)\
    完成安装kubernetes
 9. 查看k8s集群状态\
     - `kubectl get node`
+    ![](./images)
     - `kubectl get po -n kube-system`\
     当所有容器启动成功后则可以进行下一步安装
 
