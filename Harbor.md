@@ -2,6 +2,18 @@
 
 本教程对SCM Harbor离线教程\
 
+![harbor_logo](./images/harbor_logo.png)
+
+<!-- TOC -->
+
+- [Harbor 使用手册](#harbor-使用手册)
+    - [安装本地Docker镜像仓库Harbor](#安装本地docker镜像仓库harbor)
+    - [修改客户机docker支持私有镜像](#修改客户机docker支持私有镜像)
+    - [使用Harbor](#使用harbor)
+    - [下载Sitonholy Cluster Manager所需要的容器到本机](#下载sitonholy-cluster-manager所需要的容器到本机)
+    - [将镜像上传到私有仓库Harbor中](#将镜像上传到私有仓库harbor中)
+
+<!-- /TOC -->
 
 ## 安装本地Docker镜像仓库Harbor
 
@@ -80,3 +92,9 @@ b. 在主机上登录到私有仓库
     ```
     docker pull 192.168.1.10:80/sitonholy/ubuntu:16.04
     ```
+
+## 下载Sitonholy Cluster Manager所需要的容器到本机
+
+
+## 将镜像上传到私有仓库Harbor中
+
