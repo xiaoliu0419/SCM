@@ -22,5 +22,6 @@ Storage|4core|8G|100G
 
 做U盘镜像推荐使用工具rufus
 - 下载地址：[rufus](https://github.com/pbatard/rufus/releases/download/v3.6/rufus-3.6.exe)
+
 ![refus](./images/rufus.png)
 
