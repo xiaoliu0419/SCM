@@ -17,6 +17,7 @@
         - [存储节点](#存储节点)
         - [计算节点](#计算节点)
         - [部署节点](#部署节点)
+    - [测试使用](#测试使用)
 
 <!-- /TOC -->
 
@@ -181,9 +182,11 @@ Deploy|4core|4G|100G
 9. 查看k8s集群状态
 
     - `kubectl get node`
+
     ![kubectl_get_node](./images/kubectl_get_node.png)
 
     - `kubectl get po -n kube-system`
+
     ![kubectl_get_pod](./images/kubectl_get_pod.png)
     
     当所有容器启动成功后则可以进行下一步安装
@@ -213,7 +216,7 @@ Deploy|4core|4G|100G
     admin|sitonholy
 
     
-12. 测试使用
+## 测试使用
 
     请参考测试文档：[SCM测试程序](https://github.com/sitonholy/scm#%E6%A0%87%E5%87%86%E6%B5%8B%E8%AF%95%E7%A8%8B%E5%BA%8F)
     
