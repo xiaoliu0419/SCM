@@ -37,6 +37,7 @@ Harbor官方地址：[Harbor](https://github.com/goharbor/harbor)\
 ## 修改客户机docker支持私有镜像
 
 1. 编辑客户机`/etc/docker/daemon.json`文件
+
     ```
     {
         "insecure-registries": ["192.168.1.10:8888"],
@@ -45,6 +46,7 @@ Harbor官方地址：[Harbor](https://github.com/goharbor/harbor)\
     ```
 
 2. 重启客户机docker服务
+
     ```
     service docker restart
     ```
@@ -55,7 +57,7 @@ Harbor官方地址：[Harbor](https://github.com/goharbor/harbor)\
 
 ## 使用Harbor
 
-1. 在chrome中查看Harbor\
+1. 在chrome中查看Harbor
    
    user|password
    ---:|:---
@@ -80,11 +82,13 @@ b. 在主机上登录到私有仓库
     ```
 
 5. 上传到私有镜像仓库中
+
     ```
     docker push 192.168.1.10:80/sitonholy/ubuntu:16.04
     ```
 
 6. 查看上传的镜像
+
     ![dockersiton](./images/dockersiton.png)
 
 7. 下载私有仓库的镜像
@@ -103,14 +107,14 @@ b. 在主机上登录到私有仓库
 
 2. 使用命令行批量修改tag
 
-    ```shell
+    ```
     docker images | grep sitonholy | sed 's/sitonholy/192.168.1.10:80\/sitonholy/g' | awk '{print "docker tag"" " $3" "$1":"$2}'|sh
 
     ```
 
 3. 将镜像上传到Harbor中
 
-    ```shell
+    ```
     for i in `docker images|grep 192.168.1.10:80/sitonholy|awk '{print $1":"$2}'`
     do
     docker push $i

@@ -19,13 +19,13 @@
 
 ## 在Ubuntu主机安装Docker
 
-    ```shell
+    ```
     curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
     ```
 
 ## docker-compose安装
 
-    ```shell
+    ```
     # 将docker-compose下载到``
     sudo curl -L "https://github.com/docker/compose/releases/download/1.24.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
     # 赋予docker-compose执行权限
@@ -34,7 +34,7 @@
 
 ## docker 查看镜像
 
-    ```shell
+    ```
     docker images
     ```
 
@@ -69,6 +69,7 @@
     ```
     docker exec -it sitonholy bash
     ```
+
 - sitonholy 代表container的ID码或名称
 
 ## docker删除镜像
@@ -76,6 +77,7 @@
     ```
     docker rmi -f ubuntu:16.04
     ```
+
 - -f参数十分危险，意味着如果有运行的容器则也会删除这个镜像
 
 ## docker删除容器
@@ -83,4 +85,5 @@
     ```
     docker rm -f sitonholy
     ```
+    
 - -f参数危险，会强制删除启动中的容器

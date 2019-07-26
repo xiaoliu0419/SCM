@@ -12,6 +12,8 @@
     - [系统安装](#系统安装)
     - [安装本地Docker镜像仓库Harbor](#安装本地docker镜像仓库harbor)
     - [集群软件安装](#集群软件安装)
+        - [存储节点](#存储节点)
+        - [计算节点](#计算节点)
         - [部署节点](#部署节点)
 
 <!-- /TOC -->
@@ -75,7 +77,8 @@ Deploy|4core|4G|100G
 
 `UUID=46fd90a5-402d-4c43-b47b-681979ef00d1 /var/lib/docker xfs defaults,pquota 0 0`
     
-挂载完成后，`mount -a`生效\
+挂载完成后，`mount -a`生效
+
 此时系统安装完成
 
 ## 安装本地Docker镜像仓库Harbor
@@ -89,29 +92,73 @@ Deploy|4core|4G|100G
 
 1. 安装nfs服务器软件
 
-    ```shell
+    ```
     sudo apt install nfs-kernel-server
     ```
 
-2. 将所需要映射的存储目录映射为nfs目录
+2. 创建共享目录
 
+    ```
+    sudo mkdir -p /nfs/
+    sudo chmod 777 /nfs/
+    ```
+
+3. 编辑文件`/etc/export`,添加内容
+
+    ```
+    /nfs/ 192.168.1.0/24(rw,sync,no_root_squash,no_subtree_check)
+    ```
+
+    添加后使用命令`exportfs -a`生效配置
+
+    查看挂载 `showmount -e 192.168.1.100`
+
+### 计算节点
+
+1. 安装nfs客户端软件
+
+    ```
+    sudo apt install nfs-kernel-server
+    ```
+
+2. 创建挂载目录
+
+    ```
+    mkdir /nfs
+    ```
+
+3. 在`/etc/fstab`中挂载目录
+
+    ```
+    192.168.1.11:/nfs /nfs nfs defaults 0 0
+    ```
     
+4. 挂载nfs
+
+    ```
+    mount -a    #挂载
+    df -h       #查看
+    ```
+
 ### 部署节点
 
 1. 在部署节点中安装[Docker](./Docker.md)
 
-2. Docker安装完成后下载部署镜像\
-   ```shell
+2. Docker安装完成后下载部署镜像
+
+   ```
    docker pull 105552010/openpai-devbox:v0.12.10
    ```
 
 3. 镜像下载完成后打开镜像
-   ```shell
+
+   ```
    docker run --name deploy -itd 105552010/openpai-devbox:v0.12.10 bash
    ```
 
-4. 打开镜像\
-    ```shell
+4. 打开镜像
+
+    ```
     docker exec -it deploy bash
     ```
 
@@ -124,9 +171,12 @@ Deploy|4core|4G|100G
     根据备注修改所需要的配置
 
 7. 进入目录`/pai`
-8. 执行命令`./paictl.py cluster k8s-bootup -p ~/pai-config` \
+
+8. 执行命令`./paictl.py cluster k8s-bootup -p ~/pai-config` 
+
    完成安装kubernetes
-9. 查看k8s集群状态\
+
+9. 查看k8s集群状态
 
     - `kubectl get node`
     ![kubectl_get_node](./images/kubectl_get_node.png)
@@ -138,7 +188,7 @@ Deploy|4core|4G|100G
 
 10. 启动SCM服务
 
-    ```shell
+    ```
     cd /pai
     ./paictl config push -p ~/pai-config
     ./paictl service start
@@ -149,9 +199,11 @@ Deploy|4core|4G|100G
 11. 验证集群
 
     - chrome登录到主节点的9090端口,检查状态
+
     ![k8s_dash](./images/k8s_dash.png)
 
     - 登录到主节点80端口，测试集群
+    
     ![scm_dash](./images/scm_dash.png)
 
     user|password
