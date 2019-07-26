@@ -181,11 +181,11 @@ Deploy|4core|4G|100G
 
 9. 查看k8s集群状态
 
-    - `kubectl get node`
+    `kubectl get node`
 
     ![kubectl_get_node](./images/kubectl_get_node.png)
 
-    - `kubectl get po -n kube-system`
+    `kubectl get po -n kube-system`
 
     ![kubectl_get_pod](./images/kubectl_get_pod.png)
     
