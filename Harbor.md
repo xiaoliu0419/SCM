@@ -96,5 +96,24 @@ b. 在主机上登录到私有仓库
 ## 下载Sitonholy Cluster Manager所需要的容器到本机
 
 
+
 ## 将镜像上传到私有仓库Harbor中
+
+1. 在Harbor中创建项目sitonholy
+
+2. 使用命令行批量修改tag
+
+    ```shell
+    docker images | grep sitonholy | sed 's/sitonholy/192.168.1.10:80\/sitonholy/g' | awk '{print "docker tag"" " $3" "$1":"$2}'|sh
+
+    ```
+
+3. 将镜像上传到Harbor中
+
+    ```shell
+    for i in `docker images|grep 192.168.1.10:80/sitonholy|awk '{print $1":"$2}'`
+    do
+    docker push $i
+    done
+    ```
 

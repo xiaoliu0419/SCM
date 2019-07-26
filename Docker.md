@@ -19,13 +19,13 @@
 
 ## 在Ubuntu主机安装Docker
 
-    ```
+    ```shell
     curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
     ```
 
 ## docker-compose安装
 
-    ```
+    ```shell
     # 将docker-compose下载到``
     sudo curl -L "https://github.com/docker/compose/releases/download/1.24.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
     # 赋予docker-compose执行权限
@@ -34,7 +34,7 @@
 
 ## docker 查看镜像
 
-    ```
+    ```shell
     docker images
     ```
 

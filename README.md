@@ -85,22 +85,33 @@ Deploy|4core|4G|100G
 
 ## 集群软件安装
 
+### 存储节点
+
+1. 安装nfs服务器软件
+
+    ```shell
+    sudo apt install nfs-kernel-server
+    ```
+
+2. 将所需要映射的存储目录映射为nfs目录
+
+    
 ### 部署节点
 
 1. 在部署节点中安装[Docker](./Docker.md)
 
 2. Docker安装完成后下载部署镜像\
-   ```
+   ```shell
    docker pull 105552010/openpai-devbox:v0.12.10
    ```
 
 3. 镜像下载完成后打开镜像
-   ```
+   ```shell
    docker run --name deploy -itd 105552010/openpai-devbox:v0.12.10 bash
    ```
 
 4. 打开镜像\
-    ```
+    ```shell
     docker exec -it deploy bash
     ```
 
@@ -116,9 +127,39 @@ Deploy|4core|4G|100G
 8. 执行命令`./paictl.py cluster k8s-bootup -p ~/pai-config` \
    完成安装kubernetes
 9. 查看k8s集群状态\
+
     - `kubectl get node`
-    ![](./images)
-    - `kubectl get po -n kube-system`\
+    ![kubectl_get_node](./images/kubectl_get_node.png)
+
+    - `kubectl get po -n kube-system`
+    ![kubectl_get_pod](./images/kubectl_get_pod.png)
+    
     当所有容器启动成功后则可以进行下一步安装
 
-10. 
+10. 启动SCM服务
+
+    ```shell
+    cd /pai
+    ./paictl config push -p ~/pai-config
+    ./paictl service start
+    ```
+
+    等待集群安装成功，则可以使用
+
+11. 验证集群
+
+    - chrome登录到主节点的9090端口,检查状态
+    ![k8s_dash](./images/k8s_dash.png)
+
+    - 登录到主节点80端口，测试集群
+    ![scm_dash](./images/scm_dash.png)
+
+    user|password
+    ---:|:---
+    admin|sitonholy
+
+    
+12. 测试使用
+
+    请参考测试文档：[SCM测试程序](https://github.com/sitonholy/scm#%E6%A0%87%E5%87%86%E6%B5%8B%E8%AF%95%E7%A8%8B%E5%BA%8F)
+    
