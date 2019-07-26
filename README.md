@@ -211,9 +211,7 @@ Deploy|4core|4G|100G
     
     ![scm_dash](./images/scm_dash.png)
 
-    user|password
-    ---:|:---
-    admin|sitonholy
+
 
     
 ## 测试使用
