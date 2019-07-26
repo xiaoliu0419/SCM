@@ -1,6 +1,8 @@
 # Sitonholy Cluster Manager
 本教程用于安装思腾合力SCM集群软件
 
+![Sitonholy](./images/sitonholy.png)
+
 ## 安装集群软件到您的机器上
 
 <!-- TOC -->
