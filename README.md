@@ -170,7 +170,7 @@ Deploy|4core|4G|100G
 6. 编辑文件
     - [layout.yaml](./yml/layout.yaml)
     - [kubernetes-configuration.yaml](./yml/kubernetes-configuration.yaml)
-    - [services-configuration](./yml/services-configuration.yaml) \
+    - [services-configuration.yaml](./yml/services-configuration.yaml) \
     根据备注修改所需要的配置
 
 7. 进入目录`/pai`
@@ -201,7 +201,42 @@ Deploy|4core|4G|100G
 
     等待集群安装成功，则可以使用
 
-11. 验证集群
+11. 添加集群显卡信息
+
+    a. 使用如下命令找到gpu-configuration.json相应信息
+
+    `kubectl edit cm gpu-configuration`
+
+    b. 新建文件`gpu-configuration.json`
+
+    创建如下内容,要对应a步骤的gpu-configuration
+
+    ```
+    { 
+        "nodes" : { 
+            "192.168.0.49" : { 
+                "gpuType" : "P104", 
+                "gpuCount" : 2 
+                },
+            "192.168.0.125" : { 
+                    "gpuType" : "P106", 
+                    "gpuCount" : 1 
+                },
+            "192.168.0.247" : { 
+                "gpuType" : "none", 
+                "gpuCount" : 0 
+                } 
+            }
+    }
+    ```
+
+    c. 推送到kubernetes
+
+    ```
+    curl -X PUT -H "Content-Type: application/json" -H "UserName: root" -d @gpu-configuration.json "http://192.168.1.100:9086/v1/LauncherRequest/ClusterConfiguration"
+    ```
+
+12. 验证集群
 
     - chrome登录到主节点的9090端口,检查状态
 
