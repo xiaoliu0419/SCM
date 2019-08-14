@@ -143,6 +143,12 @@ Deploy|4core|4G|100G
     df -h       #查看
     ```
 
+5. 查询显卡类型
+
+   ```
+    sudo update-pciids
+    lspci -nn | grep '\[03'
+   ```
 ### 部署节点
 
 1. 在部署节点中安装[Docker](./Docker.md)
@@ -247,7 +253,12 @@ Deploy|4core|4G|100G
     ![scm_dash](./images/scm_dash.png)
 
 
+13. 在主机上查看显卡使用率
 
+```
+echo "alias nvidia-smi='/var/drivers/nvidia/current/bin/nvidia-smi'" >> ~/.bashrc
+source ~/.bashrc
+```
     
 ## 测试使用
 
