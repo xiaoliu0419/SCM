@@ -128,6 +128,7 @@ Deploy|4core|4G|100G
 
     ```
     mkdir /nfs
+    mkdir /nfs/{users,user_dir_file}
     ```
 
 3. 在`/etc/fstab`中挂载目录
