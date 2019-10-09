@@ -71,12 +71,21 @@ rest-server:
   default-pai-admin-password: sitonholy 
 
 #nfs配置
-  nfs-host: 192.168.1.10
-  nfs-user: root
-  nfs-password: sitonholy
-  nfs-dir: /ssd_data/pai/users                #nfs用户目录
-  nfs-dir-file: /ssd_data/pai/users_dir_file  #nfs限制目录
-  nfs-mount-point: /nfsmount/users            #挂载点路径
+#  nfs-host: 192.168.1.10
+#  nfs-user: root
+#  nfs-password: sitonholy
+#  nfs-dir: /ssd_data/pai/users                #nfs用户目录
+#  nfs-dir-file: /ssd_data/pai/users_dir_file  #nfs限制目录
+#  nfs-mount-point: /nfsmount/users            #挂载点路径
+  nfs-disk-list:
+  - host: 192.168.0.159
+  username: ryan
+  password: ryan
+  mountPoint: /share
+  - host: 192.168.0.xxx
+  username: xxxx
+  password: xxxx
+  mountPoint: /share
 
 # uncomment following section if you want to customize the port of web portal
 webportal:
