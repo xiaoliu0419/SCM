@@ -96,3 +96,69 @@ cd /pai
 将此行修改为`PermitRootLogin yes`
 
 重启ssh服务`service ssh restart`
+
+#### Ubuntu16.04禁用内核更新
+
+查看ubuntu目前使用的内核
+
+```
+
+uname -a
+Linux ubuntu 4.4.0-131-generic #157-Ubuntu SMP Thu Jul 12 15:51:36 UTC 2018 x86_64 x86_64 x86_64 GNU/Linux
+```
+
+
+查看apt-mark支持保持不升级的内核包
+
+```
+
+user@ubuntu:~$ sudo apt-mark showmanual|grep linux
+console-setup-linux
+libselinux1
+linux-base
+linux-generic
+linux-headers-generic
+util-linux
+
+```
+
+保持内核包不更新
+
+```
+
+sudo apt-mark hold linux-generic linux-headers-generic
+```
+
+查看是否执行成功
+
+```bash
+
+user@ubuntu:~$ sudo apt-mark showhold
+linux-generic
+linux-headers-generic
+
+```
+
+关闭apt更新操作
+
+将1改为0就好
+
+```
+sudo vi /etc/apt/apt.conf.d/10periodic'
+
+		APT::Periodic::Update-Package-Lists "0";
+		APT::Periodic::Download-Upgradeable-Packages "0";
+		APT::Periodic::AutocleanInterval "0";
+
+```
+
+执行更新测试（注意，这步骤不用做，只是为了测试）
+
+```
+apt update
+apt upgrade
+```
+
+可以发现图片内容，内核模块保持不更新
+
+![stopbootupdate](./images/stopbootupdate.png)
